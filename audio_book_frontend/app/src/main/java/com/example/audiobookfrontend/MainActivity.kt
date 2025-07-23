@@ -19,12 +19,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        val bookmarkManager = com.example.audiobookfrontend.data.BookmarkManager(this)
+
         setContent {
             AudioBookTheme {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    val bookmarkManager = remember { com.example.audiobookfrontend.data.BookmarkManager(this) }
-                    AudioBookApp(bookmarkManager)
-                }
+                AudioBookApp(bookmarkManager)
             }
         }
     }

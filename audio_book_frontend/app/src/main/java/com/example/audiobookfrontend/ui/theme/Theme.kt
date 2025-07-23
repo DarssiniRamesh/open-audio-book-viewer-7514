@@ -15,13 +15,17 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = OnAccent
 )
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Top-level theme composable for the AudioBook app using Material 3.
+ * Applies custom color scheme, typography, and shapes.
+ */
 @Composable
 fun AudioBookTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = LightColorScheme,
         typography = Typography(),
-        shapes = Shapes(),
+        shapes = Shapes,
         content = content
     )
 }
