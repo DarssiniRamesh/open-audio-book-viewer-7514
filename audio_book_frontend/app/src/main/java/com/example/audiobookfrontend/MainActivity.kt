@@ -1,11 +1,31 @@
 package com.example.audiobookfrontend
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import com.example.audiobookfrontend.ui.AudioBookApp
+import com.example.audiobookfrontend.ui.theme.AudioBookTheme
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setContent {
+            AudioBookTheme {
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    val bookmarkManager = remember { com.example.audiobookfrontend.data.BookmarkManager(this) }
+                    AudioBookApp(bookmarkManager)
+                }
+            }
+        }
     }
 }
