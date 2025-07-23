@@ -88,10 +88,25 @@ fun BookDetailScreen(bookId: String, navController: NavController, bookmarkManag
     }
 }
 
+/**
+ * Attempts to open a PDF file using an external PDF viewer. If none is found, notifies the user.
+ * Uses ACTION_VIEW intent with application/pdf MIME type.
+ */
 private fun openPdf(context: Context, pdfUrl: String) {
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.setDataAndType(Uri.parse(pdfUrl), "application/pdf")
-    intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        setDataAndType(Uri.parse(pdfUrl), "application/pdf")
+        flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }
     val chooser = Intent.createChooser(intent, "Open PDF")
-    context.startActivity(chooser)
+    // Check if there is an app to handle PDF intent; otherwise, show a message to user
+    val packageManager = context.packageManager
+    if (intent.resolveActivity(packageManager) != null) {
+        context.startActivity(chooser)
+    } else {
+        Toast.makeText(
+            context,
+            "No PDF viewer app installed. Please install a PDF viewer to read this book.",
+            Toast.LENGTH_LONG
+        ).show()
+    }
 }
